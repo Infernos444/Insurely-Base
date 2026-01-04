@@ -2,6 +2,8 @@ import argparse
 from langchain_community.vectorstores import Chroma
 from clause_semantics import tag_clause_semantics
 from clause_graph import build_clause_graph
+from reasoning_paths import extract_reasoning_paths
+
 
 from get_embedding_function import get_embedding_function
 
@@ -40,6 +42,20 @@ def main():
             print(
                 f"  → Clause (Page {edge['connected_to']}) | Relations: {edge['relations']}"
         )
+            
+    paths = extract_reasoning_paths(clauses, graph)
+
+    print("\nReasoning Paths (Ranked)")
+    print("=" * 65)
+
+    for i, p in enumerate(paths[:5], 1):  # show top 5
+        print(f"\nPath {i} | Score: {p['score']}")
+        for c in p["clauses"]:
+            print(
+                f"  Clause Page {c['page']} | Topics: {c['topics']} | Treatments: {c['treatments']}"
+            )
+        print(f"  Relations: {p['relations']}")
+        print("-" * 65)
 
 
 
