@@ -3,6 +3,8 @@ from langchain_community.vectorstores import Chroma
 from clause_semantics import tag_clause_semantics
 from clause_graph import build_clause_graph
 from reasoning_paths import extract_reasoning_paths
+from explanation_builder import build_structured_explanation
+
 
 
 from get_embedding_function import get_embedding_function
@@ -56,6 +58,19 @@ def main():
             )
         print(f"  Relations: {p['relations']}")
         print("-" * 65)
+
+    explanation = build_structured_explanation(paths, clauses)
+
+    print("\nStructured Explanation")
+    print("=" * 65)
+    print(f"Summary: {explanation['summary']}")
+    print(f"Confidence Score: {explanation['confidence_score']}")
+
+    for d in explanation["details"]:
+        print(
+            f"\nPage {d['page']} | Topics: {d['topics']} | Treatments: {d['treatments']}"
+        )
+        print(f"Explanation: {d['explanation']}")
 
 
 
