@@ -4,6 +4,8 @@ from clause_semantics import tag_clause_semantics
 from clause_graph import build_clause_graph
 from reasoning_paths import extract_reasoning_paths
 from explanation_builder import build_structured_explanation
+from eligibility_decision import decide_eligibility
+
 
 
 
@@ -71,6 +73,20 @@ def main():
             f"\nPage {d['page']} | Topics: {d['topics']} | Treatments: {d['treatments']}"
         )
         print(f"Explanation: {d['explanation']}")
+
+    decision = decide_eligibility(explanation)
+
+    print("\nEligibility Decision")
+    print("=" * 65)
+    print(f"Decision  : {decision['decision']}")
+    print(f"Reason    : {decision['reason']}")
+    print(f"Confidence: {decision['confidence']}")
+
+    print("\nEvidence:")
+    for e in decision["evidence"]:
+        print(
+            f"  Page {e['page']} | Topics: {e['topics']} | Treatments: {e['treatments']}"
+        )
 
 
 
